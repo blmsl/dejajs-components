@@ -53,6 +53,21 @@ export class DejaOverlayComponent implements OnInit, OnDestroy {
      * */
     @Input() public positionsForMobile: ConnectionPositionPair[];
 
+    /** Permet de désactivet tout traitement lié au mobile
+     *
+     * @type {boolean}
+     * @private
+     */
+    private _disableMobile = false;
+
+    public get disableMobile() {
+        return this._disableMobile;
+    }
+    @Input() public set disableMobile(value: boolean) {
+        this._disableMobile = value;
+        this.updateOriginOverlay();
+    }
+
     private _width = null;
     private _widthForMobile = '100%';
 
@@ -93,7 +108,7 @@ export class DejaOverlayComponent implements OnInit, OnDestroy {
     private _positions = DejaConnectionPositionPair.default;
 
     public get positions() {
-        if (!this.isMobile) {
+        if (this._disableMobile || !this.isMobile) {
             return this._positions;
         } else if (this.positionsForMobile) {
             return this.positionsForMobile;
@@ -142,7 +157,7 @@ export class DejaOverlayComponent implements OnInit, OnDestroy {
     }
 
     public get overlayWidth() {
-        if (!this.isMobile) {
+        if (this._disableMobile || !this.isMobile) {
             return this._width;
         } else {
             return this._widthForMobile;
@@ -170,7 +185,7 @@ export class DejaOverlayComponent implements OnInit, OnDestroy {
         this.overlayOffsetY = offsetY || 0;
         const e = eventOrOffsetX as MouseEvent;
         const target = e && e.target;
-        this.overlayOrigin = new OverlayOrigin(new ElementRef((this.isMobile && document.body) || target || this.ownerElement || this.elementRef.nativeElement));
+        this.overlayOrigin = new OverlayOrigin(new ElementRef((!this._disableMobile && this.isMobile && document.body) || target || this.ownerElement || this.elementRef.nativeElement));
         this.isVisible = true;
         this.changeDetectorRef.markForCheck();
         Observable.timer(1)
@@ -188,6 +203,6 @@ export class DejaOverlayComponent implements OnInit, OnDestroy {
     }
 
     private updateOriginOverlay() {
-        this.overlayOrigin = new OverlayOrigin(new ElementRef((this.isMobile && document.body) || this._ownerElement || this.elementRef.nativeElement));
+        this.overlayOrigin = new OverlayOrigin(new ElementRef((!this._disableMobile && this.isMobile && document.body) || this._ownerElement || this.elementRef.nativeElement));
     }
 }
