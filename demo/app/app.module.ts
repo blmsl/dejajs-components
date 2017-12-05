@@ -68,6 +68,7 @@ import {
 
 import { MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatSidenavModule, MatTabsModule, MatToolbarModule } from '@angular/material';
 import { DejaItemModule } from '../../src/common/core/item-list/index';
+import { TimeAgoPipe } from '../../src/common/core/pipes/time-ago.pipe';
 import { DejaAccordionDemoComponent } from './accordion/accordion-demo.component';
 import { DejaCircularPickerDemoComponent } from './circular-picker/circular-picker-demo';
 import { DejaColorSelectorDemoComponent } from './color-selector/color-selector-demo';
@@ -120,6 +121,7 @@ import { DejaViewPortDemoComponent } from './viewport/viewport-demo';
         DejaTreeListDemoComponent,
         DejaViewPortDemoComponent,
         NewsCardComponent,
+        TimeAgoPipe
     ],
     imports: [
         FormsModule,

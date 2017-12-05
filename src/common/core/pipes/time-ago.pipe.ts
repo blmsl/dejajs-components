@@ -9,6 +9,7 @@
 import { ChangeDetectorRef, NgZone, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/takeWhile';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -59,17 +60,18 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
         return this.lastText;
     }
 
-    private getSecondsUntilUpdate(momentInstance: moment_.Moment) {
-        const howOld = Math.abs(moment().diff(momentInstance, 'minute'));
-        if (howOld < 1) {
-            return 1;
-        } else if (howOld < 60) {
-            return 30;
-        } else if (howOld < 180) {
-            return 300;
-        } else {
-            return 3600;
-        }
+    private getSecondsUntilUpdate(_momentInstance: moment_.Moment) {
+        // const howOld = Math.abs(moment().diff(momentInstance, 'minute'));
+        // if (howOld < 1) {
+        //     return 1;
+        // } else if (howOld < 60) {
+        //     return 30;
+        // } else if (howOld < 180) {
+        //     return 300;
+        // } else {
+        //     return 3600;
+        // }
+        return 1;
     }
 
     private hasChanged(value: Date | moment_.Moment, omitSuffix?: boolean) {

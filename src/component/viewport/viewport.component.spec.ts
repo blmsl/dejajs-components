@@ -17,6 +17,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
 import { IViewPortItem, ViewportMode, ViewPortService } from '../../common/core/item-list/viewport.service';
+import { TimeAgoPipe } from '../../common/core/pipes/time-ago.pipe';
 import { DejaViewPortModule } from './index';
 import { DejaViewPortComponent } from './viewport.component';
 
@@ -28,13 +29,14 @@ import { DejaViewPortComponent } from './viewport.component';
                     <ng-template #itemTemplate let-item>
                         Item {{ item.label }}
                     </ng-template>
-                </deja-viewport>`,
+                </deja-viewport>{{now2|momentTimeAgo}}`,
 })
 class DejaViewportContainerComponent {
     public items = Array.from({ length: 100 }, (_v, k) => ({
         label: k,
         size: 10 + k % 20,
     } as IViewPortItem));
+    public now2 = (new Date()).toISOString();
 }
 
 @Component({
@@ -61,6 +63,7 @@ describe('DejaViewPortComponent', () => {
         TestBed.configureTestingModule({
             declarations: [
                 DejaViewportContainerComponent,
+                TimeAgoPipe,
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -91,7 +94,7 @@ describe('DejaViewPortComponent', () => {
             });
     };
 
-    it('should create the component', async(() => {
+    fit('should create the component', async(() => {
         const fixture = TestBed.createComponent(DejaViewportContainerComponent);
         fixture.detectChanges();
         const viewPortDebugElement = fixture.debugElement.query(By.directive(DejaViewPortComponent));
@@ -129,7 +132,7 @@ describe('DejaViewPortComponent', () => {
         fixture.detectChanges();
     }));
 
-    it('should render with viewport fixed with an item size of 20', async(() => {
+   fit('should render with viewport fixed with an item size of 20', async(() => {
         const fixture = TestBed.createComponent(DejaViewportContainerComponent);
         const viewPortDebugElement = fixture.debugElement.query(By.directive(DejaViewPortComponent));
         const viewPortInstance = viewPortDebugElement.componentInstance as DejaViewPortComponent;
